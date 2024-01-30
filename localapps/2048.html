@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#57A71C" />
+	<meta name="description" content="The classic game 2048." />
+	<title>2048</title>
+	<link rel="manifest" href="/localapps/manifest.webmanifest" />
+  <!-- TODO link rel=icon -->
+	<style>
+body {
+	font-family: sans-serif;
+}
+#game {
+	position: absolute;
+	height: 80vmin;
+	width: 80vmin;
+	background-color: #ba8;
+	--dark-text: #555;
+	--light-text: #fff;
+}
+.tile {
+	position: absolute;
+	box-sizing: border-box;
+	height: 25%;
+	width: 25%;
+	padding: 2%;
+	transition-property: translate, transform;
+	transition-duration: 0.2s;
+	font-weight: bold;
+  font-size: 5vmin;
+	color: var(--light-text);
+}
+.tile[value="2"], .tile[value="4"], .tile[value="8"] {
+	font-size: 8vmin;
+}
+.tile[value="16"], .tile[value="32"], .tile[value="64"] {
+	font-size: 7vmin;
+}
+.tile[value="128"], .tile[value="256"], .tile[value="512"] {
+	font-size: 6vmin;
+}
+
+.tile::after {
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	border-radius: 6%;
+	content: attr(value);
+}
+
+/* Colors */
+.tile[value="2"]::after {
+	background-color: color-mix(in srgb, lightgrey 80%, orange 20%);
+	color: var(--dark-text);
+}
+.tile[value="4"]::after {
+	background-color: color-mix(in srgb, lightgrey 60%, orange 40%);
+	color: var(--dark-text);
+}
+.tile[value="8"]::after {
+	background-color: color-mix(in srgb, lightgrey 20%, orange 80%);
+}
+.tile[value="16"]::after {
+	background-color: color-mix(in srgb, orange 80%, red 20%);
+}
+.tile[value="32"]::after {
+	background-color: color-mix(in srgb, orange 60%, red 40%);
+}
+.tile[value="64"]::after {
+	background-color: color-mix(in srgb, orange 30%, red 70%);
+}
+
+.tile[value="128"]::after,
+.tile[value="256"]::after,
+.tile[value="512"]::after,
+.tile[value="1024"]::after,
+.tile[value="2048"]::after {
+	background-color: #fc3;
+}
+
+/* Position of tiles */
+/* using attr this way is not yet supported by any browser */
+/*.tile[x][y] {
+	translate: calc(attr(x integer)*100%) calc(attr(y integer)*100%);
+}*/
+/* Use the property that translate and transform can stack without overriding */
+.tile[x="0"] {
+	translate: 0;
+}
+.tile[x="1"] {
+	translate: 100%;
+}
+.tile[x="2"] {
+	translate: 200%;
+}
+.tile[x="3"] {
+	translate: 300%;
+}
+.tile[y="0"] {
+	transform: translateY(0%);
+}
+.tile[y="1"] {
+	transform: translateY(100%);
+}
+.tile[y="2"] {
+	transform: translateY(200%);
+}
+.tile[y="3"] {
+	transform: translateY(300%);
+}
+	</style>
+</head>
+<body>
+	<div>Title
+	</div>
+	<div id="game">
+		<div class="tile" x="0" y="0" value="2"></div>
+		<div class="tile" x="1" y="0" value="4"></div>
+		<div class="tile" x="2" y="0" value="8"></div>
+		<div class="tile" x="3" y="0" value="16"></div>
+		<div class="tile" x="0" y="1" value="32"></div>
+		<div class="tile" x="1" y="1" value="64"></div>
+		<div class="tile" x="2" y="1" value="128"></div>
+		<div class="tile" x="3" y="1" value="1024"></div>
+	</div>
+</body>
+</html>
