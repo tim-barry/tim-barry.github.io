@@ -7,18 +7,34 @@
 	<meta name="description" content="The classic game 2048." />
 	<title>2048</title>
 	<link rel="manifest" href="/localapps/manifest.webmanifest" />
-  <!-- TODO link rel=icon -->
+	<!-- TODO link rel=icon -->
 	<style>
 body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	font-family: sans-serif;
+	background-color: #eda;
 }
-#game {
-	position: absolute;
+#description {
+	max-height: 19vh;
+	text-align: center;
+	margin-block-end: 0.3rem
+}
+#description > h1 {
+	margin-block-start: 0.3rem;
+	margin-block-end: 0.2rem;
+}
+#grid {
+	position: relative;
 	height: 80vmin;
 	width: 80vmin;
+	margin: auto;
 	background-color: #ba8;
 	--dark-text: #555;
 	--light-text: #fff;
+	border-radius: 3%;
 }
 .tile {
 	position: absolute;
@@ -26,12 +42,14 @@ body {
 	height: 25%;
 	width: 25%;
 	padding: 2%;
+	transform-origin: 50% 50%; /* for scale while appearing */
 	transition-property: translate, transform;
-	transition-duration: 0.2s;
+	transition-duration: 0.2s, 0.2s;
 	font-weight: bold;
-  font-size: 5vmin;
+	font-size: 5vmin;
 	color: var(--light-text);
 }
+
 .tile[value="2"], .tile[value="4"], .tile[value="8"] {
 	font-size: 8vmin;
 }
@@ -49,6 +67,12 @@ body {
 	align-items: center;
 	border-radius: 6%;
 	content: attr(value);
+	transition-property: opacity, scale;
+	transition-duration: 0.1s, 0.1s;
+}
+.appearing::after {
+	opacity: 0;
+	scale: 0.9;
 }
 
 /* Colors */
@@ -112,11 +136,16 @@ body {
 	transform: translateY(300%);
 }
 	</style>
+	<script defer src="2048.js"></script>
 </head>
 <body>
-	<div>Title
+	<div id="description">
+		<h1>2048</h1>
+		<div>Use the arrow keys to play.</div>
+		<div><button onclick="NewGame();">New Game</button> Score: <span id="score">0</span></div>
 	</div>
-	<div id="game">
+	<div id="grid">
+		<!-- Test colors
 		<div class="tile" x="0" y="0" value="2"></div>
 		<div class="tile" x="1" y="0" value="4"></div>
 		<div class="tile" x="2" y="0" value="8"></div>
@@ -125,6 +154,7 @@ body {
 		<div class="tile" x="1" y="1" value="64"></div>
 		<div class="tile" x="2" y="1" value="128"></div>
 		<div class="tile" x="3" y="1" value="1024"></div>
+		-->
 	</div>
 </body>
 </html>
