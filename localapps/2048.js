@@ -18,6 +18,10 @@ function NewGame() {
 	grid = makeGrid(4);
 	spawnRandomTile();
 }
+function GameOver() {
+	// TODO: set gameover overlay visible and populate with score
+}
+
 // TODO add saving
 addEventListener('DOMContentLoaded', NewGame);
 
@@ -50,6 +54,19 @@ function spawnRandomTile() {
 	let [x,y] = positions[Math.floor(Math.random() * positions.length)];
 	let value = 2 + Math.floor(Math.random()*2)*2; // 50/50 of being 2 or 4
 	grid[y][x] = createTile(x,y,value);
+	if (positions.length === 1) {
+		// grid full: check if we can still merge anything or if game is over
+		let stuck = true;
+		for (let y=0; y<grid.length; y++) {
+			for (let x=0; x<grid[0].length; x++) {
+				if ((y>0 && grid[y-1][x].value==grid[y][x].value) || (x>0 && grid[y][x-1].value==grid[y][x].value)) {
+					stuck = false;
+					break;
+				}
+			}
+		}
+		if (stuck) setTimeout(400, GameOver);
+	}
 }
 
 function clearOldTiles() {
