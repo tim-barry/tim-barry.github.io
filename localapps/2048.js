@@ -2,6 +2,8 @@
 const EMPTY = "";
 let grid;
 let gridElem = document.querySelector("#grid");
+let totalScore = 0;
+let scoreElem = document.querySelector("#score");
 let tileIdx = 0; // debug
 
 function makeGrid(n) {
@@ -11,12 +13,18 @@ function makeGrid(n) {
 function NewGame() {
 	gridElem.replaceChildren();
 	tileIdx = 0;
-	// TODO set score = 0;
+	totalScore = 0;
+	scoreElem.innerText = "0";
 	grid = makeGrid(4);
 	spawnRandomTile();
 }
 // TODO add saving
 addEventListener('DOMContentLoaded', NewGame);
+
+function displayScore(score) {
+	scoreElem.innerText = score;
+	scoreElem.animate({scale:[0.9, 1.3], offset:[0.2,0.5], easing: ["ease"]}, {duration: 500, iterations: 1});
+}
 
 function createTile(x, y, value) {
 	const tile = document.createElement("div");
@@ -131,7 +139,8 @@ function tryMove(vertical, horizontal, sign) {
 	}
 	if (moved) {
 		if (score > 0) {
-			// TODO add score to total;
+			totalScore += score;
+			displayScore(totalScore);
 		}
 		spawnRandomTile();
 		setTimeout(clearOldTiles, 200);
